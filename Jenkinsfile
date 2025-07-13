@@ -1,5 +1,8 @@
 pipeline {
       agent any 
+      environment {
+        SONAR_SERVICE = "raghu"
+      }
        tools {
         maven 'maven-3.8.9'
        }
@@ -8,6 +11,13 @@ pipeline {
                 steps {
                     echo "hello world"
                     sh 'mvn package'
+                }
+            }
+            stage('sonar Analysis') {
+                steps {
+                    withSonarQubeEnv("${SONAR_SERVICE}"){
+                        sh 'mvn sonar:sonar -Dsonar.projectKey=rb'
+                    }
                 }
             }
     }
