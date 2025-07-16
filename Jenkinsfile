@@ -16,7 +16,7 @@ pipeline {
             stage('sonar Analysis') {
                 steps {
                     withSonarQubeEnv("${SONAR_SERVICE}"){
-                        sh 'mvn sonar:sonar -Dsonar.projectKey=goat'
+                        sh 'mvn sonar:sonar -Dsonar.projectKey=sai'
                     }
                 }
             }
