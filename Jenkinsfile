@@ -1,24 +1,25 @@
 pipeline {
-      agent any 
-      environment {
-        SONAR_SERVICE = "sivadevi2"
-      }
-       tools {
-        maven 'maven-3.8.9'
-       }
-        stages{
-            stage('build'){
-                steps {
-                    echo "hello world"
-                    sh 'mvn package'
-                }
+    agent any
+    stages {
+        stage('bulid') {
+            steps {
+                echo 'building the project...'
+                sh 'make build'
             }
-            stage('sonar Analysis') {
-                steps {
-                    withSonarQubeEnv("${SONAR_SERVICE}"){
-                        sh 'mvn sonar:sonar -Dsonar.projectKey=sai'
-                    }
-                }
+        }
+        stage('test') {
+            steps {
+                echo 'running tests...'
+                sh 'make test'            
             }
+        }
+          stage('deploy') {
+        when {branch 'main'}
+        steps {
+            echo 'deploying to production..'
+            sh 'make deploy' 
+            
+        }    
+          }   
     }
 }
