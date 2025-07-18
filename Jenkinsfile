@@ -1,10 +1,14 @@
 pipeline {
     agent any
+    tools {
+        maven 'maven-3.8.9'
+    }
     stages {
         stage('bulid') {
             steps {
                 echo 'building the project...'
                 sh 'make build'
+                sh 'mvn install'
             }
         }
         stage('test') {
